@@ -1,0 +1,9 @@
+.meuApp {
+  color: red;
+  font-size: 6rem;
+  padding: 4rem;
+}
+
+.bordasArredondadas {
+  border-radius: 10px;
+}
