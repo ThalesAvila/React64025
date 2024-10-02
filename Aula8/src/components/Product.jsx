@@ -1,3 +1,5 @@
+import ItemCounter from "./ItemCounter";
+
 const Product = ({ productItem }) => {
   const hasSize = productItem?.unit?.size;
 
@@ -16,11 +18,14 @@ const Product = ({ productItem }) => {
           {hasSize && <> &#x25CF; </>}
           {hasSize && `${productItem?.unit?.size}`}
         </span>
-        <p className="font-normal text-sm text-neutral-600">
+        <p className="font-normal text-sm text-neutral-600 pb-4">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem unde
           architecto reiciendis itaque voluptatem veritatis minima quod vitae
           dicta saepe.
         </p>
+        <div>
+          <ItemCounter />
+        </div>
       </div>
     </li>
   );
