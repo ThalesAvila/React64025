@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function CounterApp() {
-  const [showB, setShowB] = useState(true);
+  const [showB, setShowB] = useState(false);
   return (
     <div>
       <Counter />
