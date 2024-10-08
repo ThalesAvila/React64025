@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Home from "./components/Home";
-import Header from "./components/Header";
-import ProductDetail from "./components/ProductDetail";
-import CartContext from "./components/CartContext";
-import Cart from "./Cart";
-import Checkout from "./Checkout";
+import {
+  Cart,
+  Home,
+  Header,
+  Checkout,
+  ProductDetail,
+  CartContext,
+} from "./components";
 
 function App() {
   const [cart, setCart] = useState([]);
