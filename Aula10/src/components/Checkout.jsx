@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import CartContext from "./CartContext";
+import CartContext from "../context/CartContext";
 
-export default function Checkout() {
+function Checkout() {
   const { cart } = useContext(CartContext);
 
   return (
@@ -25,3 +25,5 @@ export default function Checkout() {
     </>
   );
 }
+
+export { Checkout };

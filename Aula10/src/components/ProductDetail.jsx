@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import CartContext from "./CartContext";
+import CartContext from "../context/CartContext";
 
-export default function ProductDetail() {
+function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  const { cart, setCart } = useContext(CartContext);
+  const { cart, dispatch } = useContext(CartContext);
 
   useEffect(() => {
     setLoading(true);
@@ -31,7 +31,10 @@ export default function ProductDetail() {
   };
 
   const handleAddItem = () => {
-    setCart([...cart, { ...product, quantity }]);
+    dispatch({
+      type: "addItem",
+      item: { ...product, quantity },
+    });
   };
 
   return (
@@ -41,7 +44,7 @@ export default function ProductDetail() {
         <div>
           <h1>{product.title}</h1>
           <h2>${product.price?.toFixed(2)}</h2>
-          <img src={product.image} />
+          <img className="w-40" src={product.image} />
           <input
             value={quantity}
             type="number"
@@ -53,3 +56,5 @@ export default function ProductDetail() {
     </>
   );
 }
+
+export { ProductDetail };

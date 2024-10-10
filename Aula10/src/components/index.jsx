@@ -1,8 +1,6 @@
-import Home from "./Home";
-import Cart from "./Cart";
-import Header from "./Header";
-import Checkout from "./Checkout";
-import CartContext from "./CartContext";
-import ProductDetail from "./ProductDetail";
-
-export { Home, Cart, Header, Checkout, CartContext, ProductDetail };
+export { Home } from "./Home";
+export { Cart } from "./Cart";
+export { Header } from "./Header";
+export { CartItem } from "./CartItem";
+export { Checkout } from "./Checkout";
+export { ProductDetail } from "./ProductDetail";

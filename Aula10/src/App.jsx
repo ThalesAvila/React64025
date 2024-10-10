@@ -1,26 +1,13 @@
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import {
-  Cart,
-  Home,
-  Header,
-  Checkout,
-  ProductDetail,
-  CartContext,
-} from "./components";
+import { Cart, Home, Header, Checkout, ProductDetail } from "./components";
+
+import { CartProvider } from "./context/CartContext";
 
 function App() {
-  const [cart, setCart] = useState([]);
-
   return (
     <>
-      <CartContext.Provider
-        value={{
-          cart,
-          setCart,
-        }}
-      >
+      <CartProvider>
         <BrowserRouter>
           <Header />
           <Routes>
@@ -32,7 +19,7 @@ function App() {
           <hr />
           <footer>Footer</footer>
         </BrowserRouter>
-      </CartContext.Provider>
+      </CartProvider>
     </>
   );
 }
