@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import ProductLink from "../ProductLink";
 import { db } from "../Firebase";
@@ -16,6 +17,7 @@ const CategoryButton = ({ categoryName }) => (
 function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -38,10 +40,6 @@ function Home() {
   return (
     <div>
       {loading && <h1>Carregando...</h1>}
-      <h2>Categorias</h2>
-      <CategoryButton categoryName="mens" />
-      <CategoryButton categoryName="electronics" />
-      <CategoryButton categoryName="jewelery" />
       <h2>Produtos: </h2>
       {!loading &&
         products.map(({ id, name }) => (

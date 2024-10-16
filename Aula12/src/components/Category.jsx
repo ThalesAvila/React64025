@@ -29,7 +29,7 @@ export default function Category() {
       setProductsCategory(products);
       setLoading(false);
     })();
-  }, []);
+  }, [categoryId]);
 
   return (
     <div>
