@@ -9,9 +9,11 @@ function Checkout() {
       <h1>Checkout</h1>
       <ul>
         {cart.map((product) => (
-          <li>{`${product.title} X ${product.quantity} - Total value: $${(
-            product.price * product.quantity
-          ).toFixed(2)}`}</li>
+          <li key={product.name}>{`${product.name} X ${
+            product.quantity
+          } - Total value: $${(product.price * product.quantity).toFixed(
+            2
+          )}`}</li>
         ))}
         Total $
         {cart

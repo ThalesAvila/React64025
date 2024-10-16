@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore/lite";
 import { useParams } from "react-router-dom";
 
-import db from "../Firebase";
+import { db } from "../Firebase";
 import ProductLink from "../ProductLink";
 
 export default function Category() {

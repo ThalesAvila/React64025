@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import ProductLink from "../ProductLink";
 import { collection, getDocs } from "firebase/firestore/lite";
 import { Link } from "react-router-dom";
-import db from "../Firebase";
+
+import ProductLink from "../ProductLink";
+import { db } from "../Firebase";
 
 const CategoryButton = ({ categoryName }) => (
   <Link to={`category/${categoryName}`}>
-    <button className="border-blue-700 border-2 rounded-md p-1">{categoryName}</button>
+    <button className="border-blue-700 border-2 rounded-md p-1">
+      {categoryName}
+    </button>
   </Link>
 );
 
