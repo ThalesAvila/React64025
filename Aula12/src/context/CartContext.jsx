@@ -10,7 +10,7 @@ const cartReducer = (cart, action) => {
       let newCart;
 
       // Checar se o item já existe no carrinho
-      const existisInCart = cart.some(
+      const existisInCart = cart?.some(
         (productItem) => productItem.id === action.item.id
       );
 
@@ -52,6 +52,11 @@ const cartReducer = (cart, action) => {
 
       localStorage.setItem("cart", JSON.stringify(mapperCart));
       return mapperCart;
+    }
+
+    case "resetCart": {
+      localStorage.setItem("cart", JSON.stringify([]));
+      return [];
     }
 
     default:
