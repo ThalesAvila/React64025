@@ -6,6 +6,9 @@ import { CartProvider } from "./context/CartContext";
 import Category from "./components/Category";
 import SignUp from "./components/SignUp";
 import { AuthProvider } from "./context/AuthContext";
+import SignIn from "./components/SignIn";
+import Orders from "./components/Orders";
+import Order from "./components/Order";
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/category/:categoryId" element={<Category />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/orders/:orderId" element={<Order />} />
             </Routes>
           </BrowserRouter>
         </CartProvider>

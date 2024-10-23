@@ -36,8 +36,6 @@ export default function Checkout() {
   const { cart, dispatch } = useContext(CartContext);
   const { currentUser } = useAuth();
 
-  console.log({ currentUser });
-
   const total = cart
     ?.reduce((prevProduct, nextProduct) => {
       return prevProduct + nextProduct.quantity * nextProduct.price;
@@ -45,8 +43,6 @@ export default function Checkout() {
     .toFixed(2);
 
   const handleOrder = () => {
-    console.log("handleOrder");
-
     (async function () {
       const newOrder = {
         buyer: {
@@ -65,13 +61,12 @@ export default function Checkout() {
       dispatch({
         type: "resetCart",
       });
-      console.log(createdOrder);
     })();
   };
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
+      <h2 className="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
         Checkout
       </h2>
       <ProductTable>

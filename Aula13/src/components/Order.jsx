@@ -1,8 +1,10 @@
-import { useContext } from "react";
-import CartContext from "../context/CartContext";
+import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { db } from "../Firebase";
 import ProductTable from "./ProductTable";
 
-const ProductRow = ({ quantity, name, total, onClick, onChange }) => {
+const OrderRow = ({ quantity, name, total, onClick, onChange }) => {
   return (
     <tr>
       <td className="px-6 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200 text-center">
@@ -40,7 +42,7 @@ const ProductRow = ({ quantity, name, total, onClick, onChange }) => {
             class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={quantity}
             onChange={(e) => {
-              onChange(e.target.value);
+              onChange(Number(e.target.value));
             }}
             required
           />
@@ -81,9 +83,9 @@ const ProductRow = ({ quantity, name, total, onClick, onChange }) => {
         <span
           onClick={onClick}
           className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg
-        border border-transparent text-blue-600 hover:text-blue-800
-        disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500
-        dark:hover:text-blue-400 cursor-pointer"
+              border border-transparent text-blue-600 hover:text-blue-800
+              disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500
+              dark:hover:text-blue-400 cursor-pointer"
         >
           Remove
         </span>
@@ -92,48 +94,89 @@ const ProductRow = ({ quantity, name, total, onClick, onChange }) => {
   );
 };
 
-export default function Cart() {
-  const { cart, dispatch } = useContext(CartContext);
+export default function Order() {
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(false);
 
-  const total = cart
+  const total = order?.items
     ?.reduce((prevProduct, currProduct) => {
       return prevProduct + currProduct.quantity * currProduct.price;
     }, 0)
     .toFixed(2);
 
+  useEffect(() => {
+    (async function () {
+      const docRef = doc(db, "orders", orderId);
+
+      const orderSnapshot = await getDoc(docRef);
+
+      const orderData = orderSnapshot.data();
+
+      setOrder(orderData);
+    })();
+  }, [orderId]);
+
+  const handleUpdate = () => {
+    const orderRef = doc(db, "orders", orderId);
+
+    updateDoc(orderRef, {
+      ...order,
+    });
+  };
+
+  const removeItem = (id) => {
+    const newOrder = {
+      ...order,
+      items: order?.items?.filter((item) => {
+        return item.id !== id;
+      }),
+    };
+    setOrder(newOrder);
+  };
+
+  const updateQuantity = (id, newQuantity) => {
+    const newOrder = {
+      ...order,
+      items: order?.items?.map((item) => {
+        if (item.id !== id) {
+          return item;
+        }
+        return {
+          ...item,
+          quantity: newQuantity,
+        };
+      }),
+    };
+    setOrder(newOrder);
+  };
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
-      <h2 className="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
-        Cart
-      </h2>
       <ProductTable>
-        {cart?.map(({ id, quantity, name, price }) => (
-          <ProductRow
+        {order?.items?.map(({ id, quantity, name, price }) => (
+          <OrderRow
+            key={id}
             quantity={quantity}
             name={name}
-            total={(price * quantity).toFixed(2)}
-            onClick={() => {
-              dispatch({
-                type: "removeItem",
-                productId: id,
-              });
-            }}
+            total={(quantity * price).toFixed(2)}
             onChange={(newQuantity) => {
-              console.log({ id, newQuantity, name, price });
-
-              dispatch({
-                type: "changeItemQuantity",
-                product: { id, newQuantity: Number(newQuantity), name, price },
-              });
+              updateQuantity(id, newQuantity);
+            }}
+            onClick={() => {
+              removeItem(id);
             }}
           />
         ))}
       </ProductTable>
       <div className="flex justify-end items-center">
         <span className="px-2 font-bold">Total: ${total}</span>
+        <button
+          onClick={handleUpdate}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Atualizar
+        </button>
       </div>
     </div>
   );
 }
-
-export { Cart };
